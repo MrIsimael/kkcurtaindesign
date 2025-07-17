@@ -6,6 +6,7 @@ import heroCurtains from '../assets/hero-curtains.jpg';
 import bedroomCurtains from '../assets/bedroom-curtains.jpg';
 import diningCurtains from '../assets/dining-curtains.jpg';
 import officeBlinds from '../assets/office-blinds.jpg';
+import SEO from '../components/SEO';
 
 const Gallery = () => {
   const galleryItems = [
@@ -69,6 +70,12 @@ const Gallery = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Curtain Gallery - KK Curtain Design | Custom Curtain Showcase"
+        description="Browse our stunning gallery of custom curtains and window treatments. See examples of our premium craftsmanship and design expertise across South Africa."
+        keywords="curtain gallery, custom curtain examples, curtain designs, window treatment ideas, South Africa curtains, curtain inspiration"
+        url="https://your-domain.com/gallery"
+      />
       <Header />
       
       <main className="pt-8">

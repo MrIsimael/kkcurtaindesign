@@ -12,3 +12,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+User-agent: *
+Allow: /
+Disallow: /admin*
+Disallow: /thank-you
+
+Sitemap: https://your-domain.com/sitemap.xml

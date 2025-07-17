@@ -2,6 +2,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
 import { Info, Eye, Layers, Palette, Lightbulb } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const FabricSamples = () => {
   const fabricCategories = [
@@ -197,6 +198,12 @@ const FabricSamples = () => {
 
   return (
     <div className="min-h-screen">
+      <SEO 
+        title="Premium Fabric Samples - KK Curtain Design | Quality Curtain Materials"
+        description="Explore our collection of premium curtain fabrics. High-quality materials for custom curtains, from elegant silks to durable cottons. Order samples today."
+        keywords="curtain fabrics, premium curtain materials, fabric samples, curtain fabric types, quality curtain textiles, South Africa curtain fabrics"
+        url="https://your-domain.com/fabric-samples"
+      />
       <Header />
       
       <main className="pt-8">

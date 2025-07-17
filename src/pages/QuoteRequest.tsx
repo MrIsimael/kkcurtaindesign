@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
 import { addQuoteRequest } from '../lib/firebaseService';
+import SEO from '../components/SEO';
 
 const QuoteRequest = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const QuoteRequest = () => {
       localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
       
       // Prepare WhatsApp message
-      let message = `🏠 New Curtain Quote Request\n\n` +
+      const message = `🏠 New Curtain Quote Request\n\n` +
         `👤 Customer Details:\n` +
         `Name: ${formData.name}\n` +
         `Phone: ${formData.phone}\n` +
@@ -104,7 +105,7 @@ const QuoteRequest = () => {
       localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
     
       // Still show WhatsApp message with localStorage ID
-      let message = `🏠 New Curtain Quote Request\n\n` +
+      const message = `🏠 New Curtain Quote Request\n\n` +
         `👤 Customer Details:\n` +
         `Name: ${formData.name}\n` +
         `Phone: ${formData.phone}\n` +
@@ -146,7 +147,13 @@ const QuoteRequest = () => {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
+      <SEO 
+        title="Get Custom Curtain Quote - KK Curtain Design | Free Estimate"
+        description="Request a free quote for your custom curtains. Professional measurement, premium fabrics, and expert installation across South Africa. Fast turnaround guaranteed."
+        keywords="curtain quote, custom curtain price, curtain estimate, South Africa curtain service, free curtain quote, curtain consultation"
+        url="https://your-domain.com/quote"
+      />
       <Header />
       
       <main className="pt-8">

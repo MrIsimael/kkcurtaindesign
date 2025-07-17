@@ -89,15 +89,21 @@ const AdminDashboard = () => {
         
         // Load quote requests from Firebase
         const quotes = await getQuoteRequests();
-        setQuoteRequests(quotes);
+        setQuoteRequests(quotes.map(quote => ({
+          ...quote,
+          id: quote.id || String(Date.now()) // Ensure id is always defined
+        })));
         
         // Load admin users from Firebase
         const admins = await getAdminUsers();
-        setAdminUsers(admins);
+        setAdminUsers(admins.map(admin => ({
+          ...admin,
+          id: admin.id || String(Date.now()) // Ensure id is always defined
+        })));
         
         // Set current user
         const user = admins.find(admin => admin.username === username);
-        setCurrentUser(user || admins[0]);
+        setCurrentUser((user || admins[0]) as AdminUser);
         
         setDataSource('firebase');
         
@@ -123,7 +129,7 @@ const AdminDashboard = () => {
         }
         setAdminUsers(savedAdmins);
         
-        const user = savedAdmins.find((admin: any) => admin.username === username);
+        const user = savedAdmins.find((admin: AdminUser) => admin.username === username);
         setCurrentUser(user || savedAdmins[0]);
         
         setDataSource('localStorage');
@@ -741,6 +747,8 @@ Request ID: ${quote.id}
                     <div>
                       <label className="block text-sm font-medium mb-2">Username</label>
                       <input
+                        title="Username"
+                        placeholder="Enter username"
                         type="text"
                         value={currentUser?.username || ''}
                         disabled
@@ -750,7 +758,8 @@ Request ID: ${quote.id}
                     <div>
                       <label className="block text-sm font-medium mb-2">Role</label>
                       <input
-                        type="text"
+                        title="Role"
+                        placeholder="Role"
                         value={currentUser?.role === 'main' ? 'Main Administrator' : 'Administrator'}
                         disabled
                         className="input-soft w-full bg-gray-50"
@@ -759,6 +768,8 @@ Request ID: ${quote.id}
                     <div>
                       <label className="block text-sm font-medium mb-2">Account Created</label>
                       <input
+                        title="Account creation date"
+                        placeholder="Account creation date"
                         type="text"
                         value={currentUser ? new Date(currentUser.createdAt).toLocaleDateString() : ''}
                         disabled
@@ -769,6 +780,8 @@ Request ID: ${quote.id}
                       <label className="block text-sm font-medium mb-2">Last Login</label>
                       <input
                         type="text"
+                        title="Current Date"
+                        placeholder="Current Date"
                         value={new Date().toLocaleDateString()}
                         disabled
                         className="input-soft w-full bg-gray-50"
