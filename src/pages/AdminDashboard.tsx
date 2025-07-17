@@ -7,6 +7,15 @@ import {
 } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { 
+  getQuoteRequests, 
+  getAdminUsers, 
+  updateQuoteStatus, 
+  deleteQuoteRequest,
+  addAdminUser,
+  deleteAdminUser,
+  initializeDefaultAdmin
+} from '../lib/firebaseService';
 
 interface QuoteRequest {
   id: string;
@@ -45,51 +54,85 @@ const AdminDashboard = () => {
   const [newAdminUsername, setNewAdminUsername] = useState('');
   const [newAdminPassword, setNewAdminPassword] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [dataSource, setDataSource] = useState<'firebase' | 'localStorage'>('firebase');
+  const [error, setError] = useState('');
 
-  // Check admin authentication and load data
+  // Load data from Firebase
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
-    const loginTime = sessionStorage.getItem('adminLoginTime');
-    const username = sessionStorage.getItem('adminUsername') || 'admin';
-    
-    if (!isAuthenticated || !loginTime) {
-      navigate('/admin-login');
-      return;
-    }
+    const loadData = async () => {
+      const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+      const loginTime = sessionStorage.getItem('adminLoginTime');
+      const username = sessionStorage.getItem('adminUsername') || 'admin';
+      
+      if (!isAuthenticated || !loginTime) {
+        navigate('/admin-login');
+        return;
+      }
+  
+      // Check if session is older than 8 hours
+      const eightHours = 8 * 60 * 60 * 1000;
+      if (Date.now() - parseInt(loginTime) > eightHours) {
+        sessionStorage.removeItem('adminAuthenticated');
+        sessionStorage.removeItem('adminLoginTime');
+        sessionStorage.removeItem('adminUsername');
+        navigate('/admin-login');
+        return;
+      }
+  
+      try {
+        setLoading(true);
+        setError('');
+        
+        // Initialize default admin
+        await initializeDefaultAdmin();
+        
+        // Load quote requests from Firebase
+        const quotes = await getQuoteRequests();
+        setQuoteRequests(quotes);
+        
+        // Load admin users from Firebase
+        const admins = await getAdminUsers();
+        setAdminUsers(admins);
+        
+        // Set current user
+        const user = admins.find(admin => admin.username === username);
+        setCurrentUser(user || admins[0]);
+        
+        setDataSource('firebase');
+        
+      } catch (error) {
+        console.error('Error loading data from Firebase:', error);
+        setError('Failed to load data from Firebase, using local storage as fallback');
+        
+        // Fallback to localStorage
+        const savedQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+        setQuoteRequests(savedQuotes);
+        
+        const savedAdmins = JSON.parse(localStorage.getItem('adminUsers') || '[]');
+        if (savedAdmins.length === 0) {
+          const mainAdmin = {
+            id: '1',
+            username: 'admin',
+            role: 'main' as const,
+            createdAt: new Date().toISOString(),
+            lastLogin: new Date().toISOString()
+          };
+          savedAdmins.push(mainAdmin);
+          localStorage.setItem('adminUsers', JSON.stringify(savedAdmins));
+        }
+        setAdminUsers(savedAdmins);
+        
+        const user = savedAdmins.find((admin: any) => admin.username === username);
+        setCurrentUser(user || savedAdmins[0]);
+        
+        setDataSource('localStorage');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Check if session is older than 8 hours
-    const eightHours = 8 * 60 * 60 * 1000;
-    if (Date.now() - parseInt(loginTime) > eightHours) {
-      sessionStorage.removeItem('adminAuthenticated');
-      sessionStorage.removeItem('adminLoginTime');
-      sessionStorage.removeItem('adminUsername');
-      navigate('/admin-login');
-      return;
-    }
-
-    // Load quote requests from localStorage
-    const savedQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
-    setQuoteRequests(savedQuotes);
-
-    // Load admin users from localStorage
-    const savedAdmins = JSON.parse(localStorage.getItem('adminUsers') || '[]');
-    if (savedAdmins.length === 0) {
-      // Initialize with main admin
-      const mainAdmin: AdminUser = {
-        id: '1',
-        username: 'admin',
-        role: 'main',
-        createdAt: new Date().toISOString(),
-        lastLogin: new Date().toISOString()
-      };
-      savedAdmins.push(mainAdmin);
-      localStorage.setItem('adminUsers', JSON.stringify(savedAdmins));
-    }
-    setAdminUsers(savedAdmins);
-
-    // Set current user
-    const user = savedAdmins.find((admin: AdminUser) => admin.username === username);
-    setCurrentUser(user || savedAdmins[0]);
+    loadData();
   }, [navigate]);
 
   const handleLogout = () => {
@@ -99,12 +142,134 @@ const AdminDashboard = () => {
     navigate('/admin-login');
   };
 
-  const updateQuoteStatus = (id: string, newStatus: string) => {
-    const updatedQuotes = quoteRequests.map(quote => 
-      quote.id === id ? { ...quote, status: newStatus } : quote
-    );
-    setQuoteRequests(updatedQuotes);
-    localStorage.setItem('quoteRequests', JSON.stringify(updatedQuotes));
+  // Update status change handler
+  const handleStatusChange = async (id: string, newStatus: string) => {
+    try {
+      if (dataSource === 'firebase') {
+        await updateQuoteStatus(id, newStatus);
+      }
+      
+      // Update local state
+      setQuoteRequests(prev => 
+        prev.map(quote => 
+          quote.id === id ? { ...quote, status: newStatus } : quote
+        )
+      );
+      
+      // Also update localStorage as backup
+      const updatedQuotes = quoteRequests.map(quote => 
+        quote.id === id ? { ...quote, status: newStatus } : quote
+      );
+      localStorage.setItem('quoteRequests', JSON.stringify(updatedQuotes));
+      
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert('Error updating status. Please try again.');
+    }
+  };
+
+  // Delete quote handler
+  const handleDeleteQuote = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this quote request?')) {
+      return;
+    }
+
+    try {
+      if (dataSource === 'firebase') {
+        await deleteQuoteRequest(id);
+      }
+      
+      // Update local state
+      setQuoteRequests(prev => prev.filter(quote => quote.id !== id));
+      
+      // Also update localStorage
+      const updatedQuotes = quoteRequests.filter(quote => quote.id !== id);
+      localStorage.setItem('quoteRequests', JSON.stringify(updatedQuotes));
+      
+    } catch (error) {
+      console.error('Error deleting quote:', error);
+      alert('Error deleting quote. Please try again.');
+    }
+  };
+
+  // Add admin user handler
+  const handleAddAdmin = async () => {
+    if (!newAdminUsername.trim() || !newAdminPassword.trim()) {
+      alert('Please enter both username and password');
+      return;
+    }
+
+    // Check if username already exists
+    if (adminUsers.some(admin => admin.username === newAdminUsername)) {
+      alert('Username already exists');
+      return;
+    }
+
+    try {
+      const newAdmin = {
+        username: newAdminUsername,
+        password: newAdminPassword,
+        role: 'admin' as const,
+        createdAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      };
+
+      if (dataSource === 'firebase') {
+        const adminId = await addAdminUser(newAdmin);
+        setAdminUsers(prev => [...prev, { ...newAdmin, id: adminId }]);
+      } else {
+        const adminWithId = { ...newAdmin, id: Date.now().toString() };
+        setAdminUsers(prev => [...prev, adminWithId]);
+        localStorage.setItem('adminUsers', JSON.stringify([...adminUsers, adminWithId]));
+      }
+
+      // Also save to localStorage credentials for login
+      const adminCredentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
+      adminCredentials[newAdminUsername] = newAdminPassword;
+      localStorage.setItem('adminCredentials', JSON.stringify(adminCredentials));
+
+      setNewAdminUsername('');
+      setNewAdminPassword('');
+      alert('Admin user added successfully');
+      
+    } catch (error) {
+      console.error('Error adding admin:', error);
+      alert('Error adding admin user. Please try again.');
+    }
+  };
+
+  // Delete admin user handler
+  const handleDeleteAdmin = async (id: string, username: string) => {
+    if (username === 'admin') {
+      alert('Cannot delete the main admin user');
+      return;
+    }
+
+    if (!confirm(`Are you sure you want to delete admin user: ${username}?`)) {
+      return;
+    }
+
+    try {
+      if (dataSource === 'firebase') {
+        await deleteAdminUser(id);
+      }
+      
+      // Update local state
+      setAdminUsers(prev => prev.filter(admin => admin.id !== id));
+      
+      // Also update localStorage
+      const updatedAdmins = adminUsers.filter(admin => admin.id !== id);
+      localStorage.setItem('adminUsers', JSON.stringify(updatedAdmins));
+      
+      // Remove from credentials
+      const adminCredentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
+      delete adminCredentials[username];
+      localStorage.setItem('adminCredentials', JSON.stringify(adminCredentials));
+      
+    } catch (error) {
+      console.error('Error deleting admin:', error);
+      alert('Error deleting admin user. Please try again.');
+    }
   };
 
   const downloadQuoteAsPDF = (quote: QuoteRequest) => {

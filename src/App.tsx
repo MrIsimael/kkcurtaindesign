@@ -12,6 +12,9 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
+// Initialize Firebase (this will run when the app starts)
+import './lib/firebase';
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -29,7 +32,6 @@ const App = () => (
           <Route path="/admin-login" element={<AdminLogin />} />
           <Route path="/admin" element={<Navigate to="/admin-login" replace />} />
           <Route path="/admin-kk" element={<AdminDashboard />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

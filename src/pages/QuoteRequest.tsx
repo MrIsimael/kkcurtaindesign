@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
+import { addQuoteRequest } from '../lib/firebaseService';
 
 const QuoteRequest = () => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const QuoteRequest = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -41,46 +43,92 @@ const QuoteRequest = () => {
     }
     
     setIsSubmitting(true);
+    setSubmitError('');
     
-    // Create quote request object
-    const quoteRequest = {
-      id: Date.now().toString(),
-      ...formData,
-      status: 'New Request',
-      date: new Date().toISOString().split('T')[0],
-      timestamp: new Date().toISOString()
-    };
-
-    // Save to localStorage for admin dashboard
-    const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
-    existingQuotes.push(quoteRequest);
-    localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
-    
-    // Prepare WhatsApp message
-    let message = `🏠 New Curtain Quote Request\n\n` +
-      `👤 Customer Details:\n` +
-      `Name: ${formData.name}\n` +
-      `Phone: ${formData.phone}\n` +
-      `Email: ${formData.email || 'Not provided'}\n\n` +
-      `📏 Curtain Specifications:\n` +
-      `Size: ${formData.width}m (W) x ${formData.height}m (H)\n` +
-      `Number of Curtains: ${formData.numberOfCurtains}\n` +
-      `Fabric Type: ${formData.fabricType}\n` +
-      `Lace Trim: ${formData.lace}\n` +
-      `Lining: ${formData.lining}\n` +
-      `Number of Rooms: ${formData.rooms}\n\n` +
-      `📍 Delivery Address: ${formData.address}\n\n` +
-      `📝 Additional Notes: ${formData.notes || 'None'}\n\n` +
-      `Request ID: ${quoteRequest.id}`;
+    try {
+      // Create quote request object
+      const quoteRequest = {
+        ...formData,
+        status: 'New Request',
+        date: new Date().toISOString().split('T')[0],
+        timestamp: new Date().toISOString()
+      };
   
-    window.open(`https://wa.me/27722659132?text=${encodeURIComponent(message)}`, '_blank');
+      // Save to Firebase
+      const quoteId = await addQuoteRequest(quoteRequest);
+      
+      // Also save to localStorage as backup
+      const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+      existingQuotes.push({ id: quoteId, ...quoteRequest });
+      localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
+      
+      // Prepare WhatsApp message
+      let message = `🏠 New Curtain Quote Request\n\n` +
+        `👤 Customer Details:\n` +
+        `Name: ${formData.name}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Email: ${formData.email || 'Not provided'}\n\n` +
+        `📏 Curtain Specifications:\n` +
+        `Size: ${formData.width}m (W) x ${formData.height}m (H)\n` +
+        `Number of Curtains: ${formData.numberOfCurtains}\n` +
+        `Fabric Type: ${formData.fabricType}\n` +
+        `Lace Trim: ${formData.lace}\n` +
+        `Lining: ${formData.lining}\n` +
+        `Number of Rooms: ${formData.rooms}\n\n` +
+        `📍 Delivery Address: ${formData.address}\n\n` +
+        `📝 Additional Notes: ${formData.notes || 'None'}\n\n` +
+        `Request ID: ${quoteId}`;
     
-    // Navigate to thank you page
-    setTimeout(() => {
-      navigate('/thank-you');
-    }, 1000);
+      window.open(`https://wa.me/27722659132?text=${encodeURIComponent(message)}`, '_blank');
     
-    setIsSubmitting(false);
+      // Navigate to thank you page
+      setTimeout(() => {
+        navigate('/thank-you');
+      }, 1000);
+    
+    } catch (error) {
+      console.error('Error submitting quote request:', error);
+      setSubmitError('There was an error submitting your request. Please try again.');
+    
+      // Fallback to localStorage only
+      const quoteRequest = {
+        id: Date.now().toString(),
+        ...formData,
+        status: 'New Request',
+        date: new Date().toISOString().split('T')[0],
+        timestamp: new Date().toISOString()
+      };
+    
+      const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
+      existingQuotes.push(quoteRequest);
+      localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
+    
+      // Still show WhatsApp message with localStorage ID
+      let message = `🏠 New Curtain Quote Request\n\n` +
+        `👤 Customer Details:\n` +
+        `Name: ${formData.name}\n` +
+        `Phone: ${formData.phone}\n` +
+        `Email: ${formData.email || 'Not provided'}\n\n` +
+        `📏 Curtain Specifications:\n` +
+        `Size: ${formData.width}m (W) x ${formData.height}m (H)\n` +
+        `Number of Curtains: ${formData.numberOfCurtains}\n` +
+        `Fabric Type: ${formData.fabricType}\n` +
+        `Lace Trim: ${formData.lace}\n` +
+        `Lining: ${formData.lining}\n` +
+        `Number of Rooms: ${formData.rooms}\n\n` +
+        `📍 Delivery Address: ${formData.address}\n\n` +
+        `📝 Additional Notes: ${formData.notes || 'None'}\n\n` +
+        `Request ID: ${quoteRequest.id} (offline)`;
+    
+      window.open(`https://wa.me/27722659132?text=${encodeURIComponent(message)}`, '_blank');
+    
+      // Navigate to thank you page anyway
+      setTimeout(() => {
+        navigate('/thank-you');
+      }, 1000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const fabricTypes = [

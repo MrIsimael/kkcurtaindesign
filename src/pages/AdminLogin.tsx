@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Eye, EyeOff } from 'lucide-react';
+import { getAdminByUsername, updateAdminLastLogin, initializeDefaultAdmin } from '../lib/firebaseService';
 
 const AdminLogin = () => {
   const [credentials, setCredentials] = useState({
@@ -12,7 +13,7 @@ const AdminLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Admin credentials (in production, this should be environment variables or secure backend)
+  // Admin credentials (fallback for offline mode)
   const ADMIN_CREDENTIALS = {
     username: 'admin',
     password: 'KKCurtain2024!'
@@ -31,38 +32,63 @@ const AdminLogin = () => {
     setIsLoading(true);
     setError('');
 
-    // Simulate loading delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Check main admin credentials
-    const isMainAdmin = credentials.username === ADMIN_CREDENTIALS.username && 
-                       credentials.password === ADMIN_CREDENTIALS.password;
-    
-    // Check additional admin credentials from localStorage
-    const adminCredentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
-    const isAdditionalAdmin = adminCredentials[credentials.username] === credentials.password;
-    
-    if (isMainAdmin || isAdditionalAdmin) {
-      // Set admin session
-      sessionStorage.setItem('adminAuthenticated', 'true');
-      sessionStorage.setItem('adminLoginTime', Date.now().toString());
-      sessionStorage.setItem('adminUsername', credentials.username);
+    try {
+      // Initialize default admin if needed
+      await initializeDefaultAdmin();
       
-      // Update last login time for the user
-      const adminUsers = JSON.parse(localStorage.getItem('adminUsers') || '[]');
-      const updatedUsers = adminUsers.map((user: any) => 
-        user.username === credentials.username 
-          ? { ...user, lastLogin: new Date().toISOString() }
-          : user
-      );
-      localStorage.setItem('adminUsers', JSON.stringify(updatedUsers));
+      // Check Firebase admin credentials first
+      const firebaseAdmin = await getAdminByUsername(credentials.username);
       
-      navigate('/admin-kk');
-    } else {
-      setError('Invalid username or password');
+      let isValidAdmin = false;
+      let adminId = '';
+      
+      if (firebaseAdmin && firebaseAdmin.password === credentials.password) {
+        isValidAdmin = true;
+        adminId = firebaseAdmin.id!;
+        
+        // Update last login time
+        await updateAdminLastLogin(adminId);
+      } else {
+        // Fallback to hardcoded credentials
+        const isMainAdmin = credentials.username === ADMIN_CREDENTIALS.username && 
+                           credentials.password === ADMIN_CREDENTIALS.password;
+        
+        // Check additional admin credentials from localStorage
+        const adminCredentials = JSON.parse(localStorage.getItem('adminCredentials') || '{}');
+        const isAdditionalAdmin = adminCredentials[credentials.username] === credentials.password;
+        
+        isValidAdmin = isMainAdmin || isAdditionalAdmin;
+      }
+      
+      if (isValidAdmin) {
+        // Set admin session
+        sessionStorage.setItem('adminAuthenticated', 'true');
+        sessionStorage.setItem('adminLoginTime', Date.now().toString());
+        sessionStorage.setItem('adminUsername', credentials.username);
+        
+        navigate('/admin-kk');
+      } else {
+        setError('Invalid username or password');
+      }
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      
+      // Fallback to offline mode
+      const isMainAdmin = credentials.username === ADMIN_CREDENTIALS.username && 
+                         credentials.password === ADMIN_CREDENTIALS.password;
+      
+      if (isMainAdmin) {
+        sessionStorage.setItem('adminAuthenticated', 'true');
+        sessionStorage.setItem('adminLoginTime', Date.now().toString());
+        sessionStorage.setItem('adminUsername', credentials.username);
+        navigate('/admin-kk');
+      } else {
+        setError('Invalid username or password (offline mode)');
+      }
+    } finally {
+      setIsLoading(false);
     }
-    
-    setIsLoading(false);
   };
 
   return (

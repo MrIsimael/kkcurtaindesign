@@ -1,65 +1,118 @@
-# KK Curtain Design
+# 🪟 KK Curtain Design
 
-High-quality custom curtain design and delivery service based in South Africa. We specialize in tailor-made curtains crafted to each customer's specifications, with nationwide delivery and B2B expansion plans.
+High-quality custom curtain design and delivery service based in South Africa. We specialize in tailor-made curtains crafted to each customer's exact specifications, with nationwide delivery and B2B expansion plans.
 
-## 🪟 What We Do
+---
 
-KK Curtain Design offers professional, made-to-order curtains tailored to client measurements and preferences. We work directly from our workshop, producing custom finishes like lace or plain designs, and provide sample fabrics upon request.
+## 💼 What We Do
 
-## 🌟 Problems We Solve
+KK Curtain Design provides professional, made-to-order curtains based on client measurements and preferences. All curtains are handcrafted in-house with customizable finishes such as lace or plain styles. Visual fabric samples are also available to educate customers on materials and linings.
 
-- Difficulty finding high-quality, custom-sized curtains
-- Lack of delivery-friendly curtain services in South Africa
-- Delays and confusion in communication for orders and quotes
-- Limited B2B access to wholesale curtain supply
+---
 
-## 👥 Target Audience
+## 🛠 Problems We Solve
 
-- South African homeowners seeking custom-made curtains
+- Difficulty finding custom-size curtains
+- No streamlined, delivery-friendly curtain services in South Africa
+- Slow or unclear communication when placing orders
+- Lack of access to wholesale curtains for businesses
+
+---
+
+## 🎯 Target Audience
+
+- South African homeowners needing tailor-made curtains
 - Interior decorators and designers
-- Businesses and retailers looking for bulk curtain supply
-- People seeking professional consultation with quick communication via WhatsApp
+- B2B clients and retailers needing bulk curtain supply
+- Clients seeking easy, quick WhatsApp-based quotes
+
+---
 
 ## ✨ Features
 
-- 🌆 Gallery showcasing past curtain designs
-- 🧵 Fabric sample catalog (with notification when fabric is out of stock)
-- 📏 Online curtain quote system (customer submits exact measurements)
-- ✅ Manual quote approval and payment via proof of payment
-- 📦 Delivery updates (Pick n Pay Pickup, Courier Guy or others based on logistics)
-- 🟢 WhatsApp integration for customer-business communication
-- 🛠️ Admin portal to manage quotes, orders, and stock (accessible without customer login)
+- 🖼️ Gallery showcasing past curtain projects
+- 🧵 Fabric sample viewer (educational, with stock status)
+- 📏 Online quote form with visual measurement guidance
+- 📩 Optional email input for clients (clearly marked)
+- 🧮 Specify number of curtains needed per request
+- ✅ Manual quote approval & payment via proof upload
+- 📄 Quotes sent via WhatsApp are saved in admin and downloadable as PDFs
+- 🛠️ Admin portal (with user roles & main admin access control)
+- 🔒 Secure admin access, no user logins needed
+- 🟢 WhatsApp integration for client communication
 - ⭐ Customer testimonials
-- 🚫 No login/signup for end users — seamless UX
 
-## 🧪 Technologies Used
+---
+
+## 🧪 Tech Stack
 
 - Vite + React
 - TypeScript
 - Tailwind CSS
-- shadcn/ui component library
-- WhatsApp Business Integration
-
-## ⚙️ Getting Started
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/kk-curtain-design.git
-   cd kk-curtain-design
-   ```
-
-2. Install dependencies:
-   ```bash
-   npm install
-   npm run dev
-   ```
-
-## 📌 Notes
-
-- All quotes are manually reviewed and approved before proceeding to payment.
-- Admin access does not require user login but will be protected by alternative security mechanisms.
-- Delivery estimates depend on order size; typically 2 days for large orders.
+- [shadcn/ui](https://ui.shadcn.com) component library
+- Firebase (Auth, Firestore, Storage)
+- WhatsApp Business API or deep link integration
 
 ---
 
-> Designed with care by KK Curtain Design — Curtains with class, made to measure.
+## ⚙️ Getting Started
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/your-username/kk-curtain-design.git
+cd kk-curtain-design
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Create environment file
+
+```bash
+cp .env.example .env
+```
+
+### 4. Add Firebase credentials to `.env`
+
+Get these from your [Firebase Console > Project Settings > General > Your Apps](https://console.firebase.google.com/).
+
+```env
+VITE_FIREBASE_API_KEY=...
+VITE_FIREBASE_AUTH_DOMAIN=...
+VITE_FIREBASE_PROJECT_ID=...
+VITE_FIREBASE_STORAGE_BUCKET=...
+VITE_FIREBASE_MESSAGING_SENDER_ID=...
+VITE_FIREBASE_APP_ID=...
+VITE_FIREBASE_MEASUREMENT_ID=...
+```
+
+### 5. Run development server
+
+```bash
+npm run dev
+```
+
+---
+
+## 🛡 Environment & Security Notes
+
+- ✅ Firebase credentials are stored as environment variables (never in source)
+- 🔐 `.env` is gitignored and safe for version control
+- 🌍 Variables must begin with `VITE_` to be exposed to the client (per Vite)
+- 📦 In production, set these in your host (e.g. Vercel, Netlify)
+
+---
+
+## 📌 Additional Notes
+
+- All quotes are manually reviewed before approval and payment
+- Admin dashboard does not require client login but uses secure access methods
+- Delivery takes ~2 days for bulk orders (estimate based on size/location)
+
+---
+
+> Designed with care by **KK Curtain Design** — Curtains with class, made to measure.
