@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
-import { Info, Eye, Layers, Palette, Lightbulb } from 'lucide-react';
+import { Info, Eye, Layers, Palette, Lightbulb, Quote } from 'lucide-react';
 import SEO from '../components/SEO';
 
 // Import fabric images
@@ -239,15 +239,15 @@ const FabricSamples = () => {
   return (
     <div className="min-h-screen">
       <SEO 
-        title="Premium Fabric Samples - KK Curtain Design | Quality Curtain Materials"
-        description="Explore our collection of premium curtain fabrics. High-quality materials for custom curtains, from elegant silks to durable cottons. Order samples today."
-        keywords="curtain fabrics, premium curtain materials, fabric samples, curtain fabric types, quality curtain textiles, South Africa curtain fabrics"
+        title="Fabric Samples - KK Curtain Design | Premium Curtain Fabrics"
+        description="Explore our premium fabric collection including linens, blackout fabrics, and sheers. Choose from various linings and styles for your custom curtains."
+        keywords="curtain fabrics, linen curtains, blackout curtains, sheer curtains, curtain samples, fabric types"
         url="https://your-domain.com/fabric-samples"
       />
       <Header />
       
-      <main className="pt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="pt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold mb-4">Fabric & Style Guide</h1>
             <p className="text-muted-foreground max-w-3xl mx-auto text-lg">
@@ -478,14 +478,14 @@ const FabricSamples = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a 
                 href="/quote" 
-                className="btn-primary inline-flex items-center space-x-2"
+                className="btn-primary inline-flex items-center justify-center space-x-2"
               >
+                <Quote className="w-4 h-4" />
                 <span>Get Your Quote</span>
-                <span className="w-4 h-4">→</span>
               </a>
               <a 
                 href="/gallery" 
-                className="btn-secondary inline-flex items-center space-x-2"
+                className="btn-secondary inline-flex items-center justify-center space-x-2"
               >
                 <Eye className="w-4 h-4" />
                 <span>View Gallery</span>
@@ -504,10 +504,20 @@ const FabricSamples = () => {
                   lining, and style for your specific needs and budget.
                 </p>
                 <div className="flex flex-wrap gap-4 text-sm">
-                  <a href="tel:+27-XXX-XXX-XXXX" className="text-primary hover:underline">
+                  <a 
+                    href="https://wa.me/27722659132?text=Hi! I need help choosing the right fabric for my curtains. Can you provide some guidance?"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
                     📞 Call us for advice
                   </a>
-                  <a href="/quote" className="text-primary hover:underline">
+                  <a 
+                    href="https://wa.me/27722659132?text=Hi! I'd like to request a consultation for custom curtains. Please let me know your availability."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-primary hover:underline"
+                  >
                     📝 Request a consultation
                   </a>
                 </div>

@@ -55,7 +55,7 @@ const BusinessIntro = () => {
               Get a personalized quote for your custom curtains today. Our team will work with you 
               to create the perfect window treatments for your home.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex justify-center">
               <a
                 href="https://wa.me/27722659132?text=Hi! I'd like to get a quote for custom curtains."
                 target="_blank"
@@ -63,12 +63,6 @@ const BusinessIntro = () => {
                 className="btn-primary"
               >
                 WhatsApp for Quote
-              </a>
-              <a
-                href="mailto:info@curtaincrafters.co.za"
-                className="btn-outline"
-              >
-                Email Us
               </a>
             </div>
           </div>
