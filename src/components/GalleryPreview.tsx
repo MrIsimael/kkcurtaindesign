@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import LazyImage from './LazyImage';
 import heroCurtains from '../assets/hero-curtains.jpg';
 import bedroomCurtains from '../assets/bedroom-curtains.jpg';
 import diningCurtains from '../assets/dining-curtains.jpg';
@@ -11,25 +12,29 @@ const GalleryPreview = () => {
       id: 1,
       title: "Elegant Living Room",
       description: "Luxurious sage green curtains with white lace trim",
-      image: heroCurtains
+      image: heroCurtains,
+      altText: "Elegant sage green custom curtains with white lace trim in a sophisticated living room, featuring premium fabric and expert tailoring by KK Curtain Design"
     },
     {
       id: 2,
       title: "Modern Bedroom",
       description: "Blackout curtains in charcoal with thermal lining",
-      image: bedroomCurtains
+      image: bedroomCurtains,
+      altText: "Modern charcoal blackout curtains with thermal lining in a contemporary bedroom, providing complete light control and energy efficiency"
     },
     {
       id: 3,
       title: "Dining Room Elegance",
       description: "Cream voile curtains with decorative tiebacks",
-      image: diningCurtains
+      image: diningCurtains,
+      altText: "Elegant cream voile curtains with decorative tiebacks in a formal dining room, creating soft light filtering and sophisticated ambiance"
     },
     {
       id: 4,
       title: "Office Space",
       description: "Vertical blinds in neutral beige tones",
-      image: officeBlinds
+      image: officeBlinds,
+      altText: "Professional vertical blinds in neutral beige tones for office space, providing privacy and light control for productive work environment"
     }
   ];
 
@@ -48,10 +53,10 @@ const GalleryPreview = () => {
           {galleryItems.map((item) => (
             <div key={item.id} className="card-soft overflow-hidden hover-lift">
               <div className="relative group">
-                <img
+                <LazyImage
                   src={item.image}
-                  alt={item.title}
-                  className="w-full h-48 object-cover"
+                  alt={item.altText}
+                  className="w-full h-48"
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-200 flex items-center justify-center">
                   <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200">

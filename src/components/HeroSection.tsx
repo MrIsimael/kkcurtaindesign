@@ -1,15 +1,16 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import LazyImage from './LazyImage';
 import heroCurtains from '../assets/hero-curtains.jpg';
 
 const HeroSection = () => {
   return (
     <section className="relative bg-gradient-to-br from-background to-accent py-20 overflow-hidden">
       <div className="absolute inset-0 opacity-10">
-        <img
+        <LazyImage
           src={heroCurtains}
-          alt="Beautiful custom curtains"
-          className="w-full h-full object-cover"
+          alt="Elegant sage green custom curtains with white lace trim in a luxurious living room setting, showcasing KK Curtain Design's premium craftsmanship and attention to detail"
+          className="w-full h-full"
         />
       </div>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
