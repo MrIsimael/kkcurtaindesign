@@ -1,14 +1,26 @@
 import { useState } from 'react';
-import { MessageCircle, CheckCircle, Info, Ruler, Package, Palette } from 'lucide-react';
+import { MessageCircle, CheckCircle, Info, Ruler, Package, Palette, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
 import { addQuoteRequest } from '../lib/firebaseService';
 import SEO from '../components/SEO';
+import { useToast } from '@/components/ui/use-toast';
+
+interface FormErrors {
+  name?: string;
+  phone?: string;
+  email?: string;
+  width?: string;
+  height?: string;
+  fabricType?: string;
+  address?: string;
+}
 
 const QuoteRequest = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -25,28 +37,121 @@ const QuoteRequest = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState('');
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
+
+  const validateField = (name: string, value: string): string | undefined => {
+    switch (name) {
+      case 'name':
+        if (!value.trim()) return 'Full name is required';
+        if (value.trim().length < 2) return 'Name must be at least 2 characters';
+        if (!/^[a-zA-Z\s]+$/.test(value.trim())) return 'Name can only contain letters and spaces';
+        break;
+      
+      case 'phone':
+        if (!value.trim()) return 'Phone number is required';
+        // South African phone number validation
+        const phoneRegex = /^(\+27|0)[6-8][0-9]{8}$|^(\+27|0)[1-5][0-9]{7}$/;
+        const cleanPhone = value.replace(/\s+/g, '');
+        if (!phoneRegex.test(cleanPhone)) {
+          return 'Please enter a valid South African phone number (e.g., +27 82 123 4567 or 082 123 4567)';
+        }
+        break;
+      
+      case 'email':
+        if (value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          return 'Please enter a valid email address';
+        }
+        break;
+      
+      case 'width':
+        if (!value) return 'Width is required';
+        const width = parseFloat(value);
+        if (isNaN(width) || width < 0.5) return 'Width must be at least 0.5 meters';
+        if (width > 10) return 'Width cannot exceed 10 meters';
+        break;
+      
+      case 'height':
+        if (!value) return 'Height is required';
+        const height = parseFloat(value);
+        if (isNaN(height) || height < 0.5) return 'Height must be at least 0.5 meters';
+        if (height > 5) return 'Height cannot exceed 5 meters';
+        break;
+      
+      case 'fabricType':
+        if (!value) return 'Please select a fabric type';
+        break;
+      
+      case 'address':
+        if (!value.trim()) return 'Delivery address is required';
+        if (value.trim().length < 5) return 'Please provide a more detailed address';
+        break;
+    }
+    return undefined;
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+    const requiredFields = ['name', 'phone', 'width', 'height', 'fabricType', 'address'];
+    
+    requiredFields.forEach(field => {
+      const error = validateField(field, formData[field as keyof typeof formData]);
+      if (error) newErrors[field as keyof FormErrors] = error;
+    });
+
+    // Validate email if provided
+    if (formData.email) {
+      const emailError = validateField('email', formData.email);
+      if (emailError) newErrors.email = emailError;
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear error when user starts typing
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({ ...prev, [name]: true }));
+    
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate phone number format
-    if (!formData.phone.match(/^\+?[0-9\s]{10,15}$/)) {
-      alert('Please enter a valid phone number (e.g. +27 12 345 6789)');
+    // Mark all fields as touched
+    const allFields = ['name', 'phone', 'email', 'width', 'height', 'fabricType', 'address'];
+    setTouched(allFields.reduce((acc, field) => ({ ...acc, [field]: true }), {}));
+    
+    if (!validateForm()) {
+      toast({
+        variant: "destructive",
+        title: "Please fix the errors",
+        description: "Check the highlighted fields and correct any errors before submitting.",
+      });
       return;
     }
     
     setIsSubmitting(true);
-    setSubmitError('');
     
     try {
+      // Show loading toast
+      toast({
+        title: "Submitting your request...",
+        description: "Please wait while we process your quote request.",
+      });
+
       // Create quote request object
       const quoteRequest = {
         ...formData,
@@ -62,6 +167,13 @@ const QuoteRequest = () => {
       const existingQuotes = JSON.parse(localStorage.getItem('quoteRequests') || '[]');
       existingQuotes.push({ id: quoteId, ...quoteRequest });
       localStorage.setItem('quoteRequests', JSON.stringify(existingQuotes));
+      
+      // Show success toast
+      toast({
+        title: "Quote request submitted successfully! 🎉",
+        description: "We'll contact you within 24 hours with your personalized quote.",
+        duration: 5000,
+      });
       
       // Prepare WhatsApp message
       const message = `🏠 New Curtain Quote Request\n\n` +
@@ -85,11 +197,18 @@ const QuoteRequest = () => {
       // Navigate to thank you page
       setTimeout(() => {
         navigate('/thank-you');
-      }, 1000);
+      }, 2000);
     
     } catch (error) {
       console.error('Error submitting quote request:', error);
-      setSubmitError('There was an error submitting your request. Please try again.');
+      
+      // Show error toast
+      toast({
+        variant: "destructive",
+        title: "Submission failed",
+        description: "There was an error submitting your request. We've saved it locally and will try again.",
+        duration: 7000,
+      });
     
       // Fallback to localStorage only
       const quoteRequest = {
@@ -126,10 +245,14 @@ const QuoteRequest = () => {
       // Navigate to thank you page anyway
       setTimeout(() => {
         navigate('/thank-you');
-      }, 1000);
+      }, 2000);
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const getFieldError = (fieldName: string) => {
+    return touched[fieldName] && errors[fieldName as keyof FormErrors];
   };
 
   const fabricTypes = [
@@ -186,10 +309,18 @@ const QuoteRequest = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('name') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     placeholder="e.g. John Doe"
                   />
+                  {getFieldError('name') && (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('name')}</p>
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -201,11 +332,20 @@ const QuoteRequest = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
-                    placeholder="e.g. +27 123 456 789"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('phone') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
+                    placeholder="e.g. +27 82 123 4567"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">We'll contact you via WhatsApp</p>
+                  {getFieldError('phone') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('phone')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">We'll contact you via WhatsApp</p>
+                  )}
                 </div>
 
                 <div className="md:col-span-2">
@@ -217,10 +357,20 @@ const QuoteRequest = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('email') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     placeholder="e.g. john@example.com"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">For sending quotes and updates</p>
+                  {getFieldError('email') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('email')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">For sending quotes and updates</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -261,11 +411,20 @@ const QuoteRequest = () => {
                     name="width"
                     value={formData.width}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('width') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     placeholder="e.g. 2.5"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Window width + extra coverage</p>
+                  {getFieldError('width') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('width')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">Window width + extra coverage</p>
+                  )}
                 </div>
 
                 <div>
@@ -281,11 +440,20 @@ const QuoteRequest = () => {
                     name="height"
                     value={formData.height}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('height') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     placeholder="e.g. 2.4"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">Rod to floor measurement</p>
+                  {getFieldError('height') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('height')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">Rod to floor measurement</p>
+                  )}
                 </div>
 
                 <div>
@@ -298,7 +466,6 @@ const QuoteRequest = () => {
                     name="numberOfCurtains"
                     value={formData.numberOfCurtains}
                     onChange={handleChange}
-                    required
                     className="input-soft w-full"
                   >
                     <option value="1">1 curtain panel</option>
@@ -322,19 +489,28 @@ const QuoteRequest = () => {
                     name="fabricType"
                     value={formData.fabricType}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('fabricType') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                   >
                     <option value="">Choose your fabric...</option>
                     {fabricTypes.map((fabric) => (
                       <option key={fabric} value={fabric}>{fabric}</option>
                     ))}
                   </select>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    <a href="/fabric-samples" className="text-primary hover:underline">
-                      View fabric samples →
-                    </a>
-                  </p>
+                  {getFieldError('fabricType') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('fabricType')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      <a href="/fabric-samples" className="text-primary hover:underline">
+                        View fabric samples →
+                      </a>
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -409,11 +585,20 @@ const QuoteRequest = () => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    required
-                    className="input-soft w-full"
+                    onBlur={handleBlur}
+                    className={`input-soft w-full ${
+                      getFieldError('address') ? 'border-red-500 focus:border-red-500' : ''
+                    }`}
                     placeholder="e.g. Cape Town, Western Cape"
                   />
-                  <p className="text-xs text-muted-foreground mt-1">City and province for delivery quote</p>
+                  {getFieldError('address') ? (
+                    <div className="flex items-center space-x-1 mt-1">
+                      <AlertCircle className="w-4 h-4 text-red-500" />
+                      <p className="text-sm text-red-500">{getFieldError('address')}</p>
+                    </div>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">City and province for delivery quote</p>
+                  )}
                 </div>
 
                 <div>

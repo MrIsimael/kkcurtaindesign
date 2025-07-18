@@ -4,6 +4,29 @@ import WhatsAppFloat from '../components/WhatsAppFloat';
 import { Info, Eye, Layers, Palette, Lightbulb } from 'lucide-react';
 import SEO from '../components/SEO';
 
+// Import fabric images
+import NaturalLinenImg from '../assets/Fabrics/NaturalLinen.jpeg';
+import BelgianLinenImg from '../assets/Fabrics/BelgianLinen.jpeg';
+import LinenBlendImg from '../assets/Fabrics/LinenBlend.jpeg';
+import ThermalBlackoutImg from '../assets/Fabrics/ThermalBlackout.jpeg';
+import SuedeBlackoutImg from '../assets/Fabrics/SuedeBlackout.jpeg';
+import VelvetBlackoutImg from '../assets/Fabrics/VelvetBlackout.jpeg';
+import PureVoileImg from '../assets/Fabrics/PureVoile.jpeg';
+import LaceVoileImg from '../assets/Fabrics/LaceVoile.jpg';
+import EmbroideredSheerImg from '../assets/Fabrics/EmbroideredSheer.jpeg';
+
+// Import lining images
+import NoLiningImg from '../assets/Fabrics/NoLining.jpeg';
+import StandardLiningImg from '../assets/Fabrics/StandardLining.jpeg';
+import ThermalLiningImg from '../assets/Fabrics/ThermalLining.jpeg';
+import BlackoutLiningImg from '../assets/Fabrics/BlackoutLining.jpeg';
+
+// Import style images
+import RodPocketImg from '../assets/Fabrics/RodPocket.jpeg';
+import GrommetTopImg from '../assets/Fabrics/GormmetTop.jpeg';
+import PleatedHeadingImg from '../assets/Fabrics/PleatedHeading.jpeg';
+import TabTopImg from '../assets/Fabrics/TabTop.jpeg';
+
 const FabricSamples = () => {
   const fabricCategories = [
     {
@@ -14,6 +37,7 @@ const FabricSamples = () => {
           id: 1,
           name: "Natural Linen",
           type: "100% Linen",
+          image: NaturalLinenImg,
           characteristics: ["Breathable", "Natural texture", "Excellent drape", "Wrinkle-prone"],
           bestFor: "Living rooms, dining rooms",
           lightFiltering: "Medium",
@@ -26,6 +50,7 @@ const FabricSamples = () => {
           id: 2,
           name: "Belgian Linen",
           type: "European Linen",
+          image: BelgianLinenImg,
           characteristics: ["Luxurious feel", "Superior durability", "Smooth finish", "Less wrinkles"],
           bestFor: "Master bedrooms, formal dining",
           lightFiltering: "Medium",
@@ -38,6 +63,7 @@ const FabricSamples = () => {
           id: 3,
           name: "Linen Blend",
           type: "Linen/Cotton Mix",
+          image: LinenBlendImg,
           characteristics: ["Easy care", "Natural appearance", "Less expensive", "Good durability"],
           bestFor: "Casual spaces, children's rooms",
           lightFiltering: "Medium",
@@ -56,6 +82,7 @@ const FabricSamples = () => {
           id: 4,
           name: "Thermal Blackout",
           type: "Polyester Blend",
+          image: ThermalBlackoutImg,
           characteristics: ["100% light blocking", "Energy efficient", "Noise reduction", "Easy care"],
           bestFor: "Bedrooms, home theaters",
           lightFiltering: "None (100% blackout)",
@@ -68,6 +95,7 @@ const FabricSamples = () => {
           id: 5,
           name: "Suede Blackout",
           type: "Faux Suede",
+          image: SuedeBlackoutImg,
           characteristics: ["Soft texture", "Excellent light control", "Luxurious appearance", "Good insulation"],
           bestFor: "Master bedrooms, study rooms",
           lightFiltering: "Minimal",
@@ -80,6 +108,7 @@ const FabricSamples = () => {
           id: 6,
           name: "Velvet Blackout",
           type: "Cotton Velvet",
+          image: VelvetBlackoutImg,
           characteristics: ["Luxurious velvet", "Thermal properties", "Rich colors", "Sound dampening"],
           bestFor: "Formal rooms, theaters",
           lightFiltering: "None",
@@ -98,6 +127,7 @@ const FabricSamples = () => {
           id: 7,
           name: "Pure Voile",
           type: "100% Cotton",
+          image: PureVoileImg,
           characteristics: ["Light and airy", "Gentle privacy", "Soft light filtering", "Easy care"],
           bestFor: "Living rooms, kitchens",
           lightFiltering: "High (soft diffusion)",
@@ -110,6 +140,7 @@ const FabricSamples = () => {
           id: 8,
           name: "Lace Voile",
           type: "Cotton/Polyester",
+          image: LaceVoileImg,
           characteristics: ["Delicate lace pattern", "Decorative", "Soft filtering", "Traditional style"],
           bestFor: "Traditional homes, bedrooms",
           lightFiltering: "High",
@@ -122,6 +153,7 @@ const FabricSamples = () => {
           id: 9,
           name: "Embroidered Sheer",
           type: "Polyester",
+          image: EmbroideredSheerImg,
           characteristics: ["Elegant embroidery", "Light diffusion", "Decorative patterns", "Modern style"],
           bestFor: "Contemporary homes, dining",
           lightFiltering: "High",
@@ -137,6 +169,7 @@ const FabricSamples = () => {
   const liningTypes = [
     {
       name: "No Lining",
+      image: NoLiningImg,
       description: "Natural fabric drape, maximum light filtering",
       benefits: ["Cost-effective", "Natural drape", "Lightweight"],
       drawbacks: ["Less privacy", "Faster fading", "Less insulation"],
@@ -144,6 +177,7 @@ const FabricSamples = () => {
     },
     {
       name: "Standard Lining",
+      image: StandardLiningImg,
       description: "Cotton or polyester backing for improved durability",
       benefits: ["Better privacy", "Protects main fabric", "Improved drape"],
       drawbacks: ["Slightly more expensive", "Heavier"],
@@ -151,6 +185,7 @@ const FabricSamples = () => {
     },
     {
       name: "Thermal Lining",
+      image: ThermalLiningImg,
       description: "Insulating layer for energy efficiency",
       benefits: ["Energy savings", "Temperature control", "Noise reduction"],
       drawbacks: ["Higher cost", "Bulkier appearance"],
@@ -158,6 +193,7 @@ const FabricSamples = () => {
     },
     {
       name: "Blackout Lining",
+      image: BlackoutLiningImg,
       description: "Complete light blocking for better sleep",
       benefits: ["100% light blocking", "Better sleep", "Privacy"],
       drawbacks: ["Most expensive", "Heaviest option"],
@@ -168,6 +204,7 @@ const FabricSamples = () => {
   const curtainStyles = [
     {
       name: "Rod Pocket",
+      image: RodPocketImg,
       description: "Fabric sleeve sewn at the top for rod insertion",
       appearance: "Gathered, casual look",
       functionality: "Easy to hang, stationary",
@@ -175,6 +212,7 @@ const FabricSamples = () => {
     },
     {
       name: "Grommet Top",
+      image: GrommetTopImg,
       description: "Metal rings at the top for modern appearance",
       appearance: "Clean, contemporary lines",
       functionality: "Easy to slide, modern look",
@@ -182,6 +220,7 @@ const FabricSamples = () => {
     },
     {
       name: "Pleated Heading",
+      image: PleatedHeadingImg,
       description: "Formal pleats sewn at the top",
       appearance: "Traditional, elegant",
       functionality: "Professional appearance, structured",
@@ -189,6 +228,7 @@ const FabricSamples = () => {
     },
     {
       name: "Tab Top",
+      image: TabTopImg,
       description: "Fabric loops at the top",
       appearance: "Casual, relaxed",
       functionality: "Easy hanging, decorative",
@@ -244,6 +284,15 @@ const FabricSamples = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {category.fabrics.map((fabric) => (
                   <div key={fabric.id} className="card-soft overflow-hidden">
+                    {/* Fabric Image */}
+                    <div className="aspect-video overflow-hidden">
+                      <img
+                        src={fabric.image}
+                        alt={fabric.name}
+                        className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                    
                     <div className="p-6">
                       <div className="flex items-center space-x-2 mb-3">
                         <Palette className="w-5 h-5 text-primary" />
@@ -298,10 +347,9 @@ const FabricSamples = () => {
                         </div>
 
                         <div className="pt-3 border-t border-border">
-                          <div className="flex items-center text-sm text-muted-foreground">
-                            <Info className="w-4 h-4 mr-1" />
-                            <span>Maintenance: {fabric.maintenance}</span>
-                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            <span className="font-medium">Maintenance:</span> {fabric.maintenance}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -311,52 +359,62 @@ const FabricSamples = () => {
             </div>
           ))}
 
-          {/* Lining Guide */}
+          {/* Lining Options */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Curtain Lining Guide</h2>
-              <p className="text-muted-foreground text-lg">
-                Understanding different lining options and their benefits
-              </p>
+              <h2 className="text-3xl font-bold mb-3">Lining Options</h2>
+              <p className="text-muted-foreground text-lg">Choose the right lining for your needs</p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {liningTypes.map((lining, index) => (
-                <div key={index} className="card-soft p-6">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <Layers className="w-5 h-5 text-primary" />
-                    <h3 className="font-bold text-lg">{lining.name}</h3>
+                <div key={index} className="card-soft overflow-hidden">
+                  {/* Lining Image */}
+                  <div className="aspect-square overflow-hidden">
+                    <img
+                      src={lining.image}
+                      alt={lining.name}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
-                  <p className="text-muted-foreground mb-4">{lining.description}</p>
                   
-                  <div className="space-y-3">
-                    <div>
-                      <h4 className="font-semibold text-sm text-green-700 mb-1">Benefits:</h4>
-                      <ul className="text-sm space-y-1">
-                        {lining.benefits.map((benefit, idx) => (
-                          <li key={idx} className="flex items-center text-green-600">
-                            <div className="w-1.5 h-1.5 bg-green-500 rounded-full mr-2"></div>
-                            {benefit}
-                          </li>
-                        ))}
-                      </ul>
+                  <div className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Layers className="w-4 h-4 text-primary" />
+                      <h3 className="font-bold">{lining.name}</h3>
                     </div>
+                    <p className="text-sm text-muted-foreground mb-3">{lining.description}</p>
                     
-                    <div>
-                      <h4 className="font-semibold text-sm text-orange-700 mb-1">Considerations:</h4>
-                      <ul className="text-sm space-y-1">
-                        {lining.drawbacks.map((drawback, idx) => (
-                          <li key={idx} className="flex items-center text-orange-600">
-                            <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mr-2"></div>
-                            {drawback}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div className="pt-2 border-t border-border">
-                      <span className="font-medium text-sm">Best for: </span>
-                      <span className="text-muted-foreground text-sm">{lining.bestFor}</span>
+                    <div className="space-y-2">
+                      <div>
+                        <h4 className="font-medium text-xs text-green-700 mb-1">Benefits:</h4>
+                        <ul className="text-xs text-muted-foreground space-y-0.5">
+                          {lining.benefits.map((benefit, idx) => (
+                            <li key={idx} className="flex items-center">
+                              <div className="w-1 h-1 bg-green-500 rounded-full mr-1.5"></div>
+                              {benefit}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-xs text-orange-700 mb-1">Considerations:</h4>
+                        <ul className="text-xs text-muted-foreground space-y-0.5">
+                          {lining.drawbacks.map((drawback, idx) => (
+                            <li key={idx} className="flex items-center">
+                              <div className="w-1 h-1 bg-orange-500 rounded-full mr-1.5"></div>
+                              {drawback}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div className="pt-2 border-t border-border">
+                        <p className="text-xs text-muted-foreground">
+                          <span className="font-medium">Best for:</span> {lining.bestFor}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -364,36 +422,45 @@ const FabricSamples = () => {
             </div>
           </div>
 
-          {/* Curtain Styles Guide */}
+          {/* Curtain Styles */}
           <div className="mb-16">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold mb-3">Curtain Styles & Headings</h2>
-              <p className="text-muted-foreground text-lg">
-                Different hanging styles for different looks and functions
-              </p>
+              <h2 className="text-3xl font-bold mb-3">Curtain Styles</h2>
+              <p className="text-muted-foreground text-lg">Different hanging styles for different looks</p>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {curtainStyles.map((style, index) => (
-                <div key={index} className="card-soft p-6">
-                  <div className="flex items-center space-x-2 mb-3">
-                    <Eye className="w-5 h-5 text-primary" />
-                    <h3 className="font-bold text-lg">{style.name}</h3>
+                <div key={index} className="card-soft overflow-hidden">
+                  {/* Style Image */}
+                  <div className="aspect-square overflow-hidden">
+                    <img
+                      src={style.image}
+                      alt={style.name}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
                   </div>
-                  <p className="text-muted-foreground mb-4">{style.description}</p>
                   
-                  <div className="space-y-3 text-sm">
-                    <div>
-                      <span className="font-medium">Appearance: </span>
-                      <span className="text-muted-foreground">{style.appearance}</span>
+                  <div className="p-4">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Eye className="w-4 h-4 text-primary" />
+                      <h3 className="font-bold">{style.name}</h3>
                     </div>
-                    <div>
-                      <span className="font-medium">Functionality: </span>
-                      <span className="text-muted-foreground">{style.functionality}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium">Best for: </span>
-                      <span className="text-muted-foreground">{style.bestFor}</span>
+                    <p className="text-sm text-muted-foreground mb-3">{style.description}</p>
+                    
+                    <div className="space-y-2 text-xs">
+                      <div>
+                        <span className="font-medium">Appearance:</span>
+                        <p className="text-muted-foreground">{style.appearance}</p>
+                      </div>
+                      <div>
+                        <span className="font-medium">Functionality:</span>
+                        <p className="text-muted-foreground">{style.functionality}</p>
+                      </div>
+                      <div className="pt-2 border-t border-border">
+                        <span className="font-medium">Best for:</span>
+                        <p className="text-muted-foreground">{style.bestFor}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -402,36 +469,54 @@ const FabricSamples = () => {
           </div>
 
           {/* Call to Action */}
-          <div className="text-center">
-            <div className="bg-accent rounded-2xl p-8">
-              <h2 className="text-2xl font-bold mb-4">Ready to Choose Your Perfect Curtains?</h2>
-              <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                Now that you understand the different options available, get a personalized quote 
-                for your custom curtains. Our experts will help you make the perfect choice for your space.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/quote"
-                  className="btn-primary inline-flex items-center space-x-2"
-                >
-                  <Palette className="w-4 h-4" />
-                  <span>Get My Custom Quote</span>
-                </a>
-                <a
-                  href="https://wa.me/27722659132?text=Hi! I have questions about fabric options after viewing your guide."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-outline inline-flex items-center space-x-2"
-                >
-                  <Info className="w-4 h-4" />
-                  <span>Ask Our Experts</span>
-                </a>
+          <div className="text-center bg-primary/5 rounded-2xl p-8 mb-12">
+            <h2 className="text-2xl font-bold mb-4">Ready to Choose Your Perfect Curtains?</h2>
+            <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Now that you've explored our fabric options, linings, and styles, 
+              you're ready to create your perfect custom curtains.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <a 
+                href="/quote" 
+                className="btn-primary inline-flex items-center space-x-2"
+              >
+                <span>Get Your Quote</span>
+                <span className="w-4 h-4">→</span>
+              </a>
+              <a 
+                href="/gallery" 
+                className="btn-secondary inline-flex items-center space-x-2"
+              >
+                <Eye className="w-4 h-4" />
+                <span>View Gallery</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Additional Info */}
+          <div className="bg-accent/50 rounded-2xl p-6">
+            <div className="flex items-start space-x-3">
+              <Info className="w-6 h-6 text-primary mt-1" />
+              <div>
+                <h3 className="font-semibold mb-2">Need Help Choosing?</h3>
+                <p className="text-muted-foreground mb-3">
+                  Our experienced team can help you select the perfect combination of fabric, 
+                  lining, and style for your specific needs and budget.
+                </p>
+                <div className="flex flex-wrap gap-4 text-sm">
+                  <a href="tel:+27-XXX-XXX-XXXX" className="text-primary hover:underline">
+                    📞 Call us for advice
+                  </a>
+                  <a href="/quote" className="text-primary hover:underline">
+                    📝 Request a consultation
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-
+      
       <Footer />
       <WhatsAppFloat />
     </div>
