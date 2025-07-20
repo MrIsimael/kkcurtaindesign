@@ -10,31 +10,31 @@ const GalleryPreview = () => {
   const galleryItems = [
     {
       id: 1,
-      title: "Elegant Living Room",
-      description: "Luxurious sage green curtains with white lace trim",
+      title: "Classic Swag Valance Collection",
+      description: "Traditional beige curtains with elaborate swag valances and decorative tiebacks",
       image: ElegantLivingRoom,
-      altText: "Elegant sage green custom curtains with white lace trim in a sophisticated living room, featuring premium fabric and expert tailoring by KK Curtain Design"
+      altText: "Display of traditional beige curtains featuring elaborate multi-layered swag valances with decorative tiebacks in a curtain showroom, showcasing classic formal window treatment styles with premium fabric construction"
     },
     {
       id: 2,
-      title: "Modern Bedroom",
-      description: "Blackout curtains in charcoal with thermal lining",
+      title: "Elegant Layered Window Treatment",
+      description: "Luxurious beige curtains with decorative tiebacks and delicate lace sheers",
       image: ModernBedroom,
-      altText: "Modern charcoal blackout curtains with thermal lining in a contemporary bedroom, providing complete light control and energy efficiency"
+      altText: "Elegant beige curtains with decorative fabric tiebacks paired with delicate white lace sheer panels, showcasing sophisticated layered window treatment with intricate lace patterns and premium fabric quality"
     },
     {
       id: 3,
-      title: "Dining Room Elegance",
-      description: "Cream voile curtains with decorative tiebacks",
+      title: "Living Room Elegance",
+      description: "Luxurious beige curtains with ornate swag valances and decorative tiebacks",
       image: DinningRoomElegance,
-      altText: "Elegant cream voile curtains with decorative tiebacks in a formal dining room, creating soft light filtering and sophisticated ambiance"
+      altText: "Elegant traditional living room featuring luxurious beige curtains with ornate swag valances, decorative tiebacks, and layered sheer panels in a formal interior with polished marble flooring"
     },
     {
       id: 4,
-      title: "Office Space",
-      description: "Vertical blinds in neutral beige tones",
+      title: "Living Room Bay Window Curtains",
+      description: "Golden beige curtains with decorative tiebacks spanning bay window",
       image: OfficeSpace,
-      altText: "Professional vertical blinds in neutral beige tones for office space, providing privacy and light control for productive work environment"
+      altText: "Elegant Golden beige curtains with decorative tiebacks installed across a bay window in a living room, paired with patterned sheer panels and complementing brown leather sectional sofa"
     }
   ];
 

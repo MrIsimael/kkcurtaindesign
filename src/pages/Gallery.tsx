@@ -17,46 +17,22 @@ const Gallery = () => {
   const galleryItems = [
     {
       id: 1,
-      title: "Elegant Living Room Curtains",
-      description: "Luxurious sage green curtains with white lace trim",
+      title: "Elegant Layered Window Treatment",
+      description: "Luxurious beige curtains with decorative tiebacks and delicate lace sheers",
       image: ModernBedroom,
-      tags: ["Living Room", "Sage Green", "Lace Trim"],
-      altText: "Elegant sage green custom curtains with white lace trim in a sophisticated living room, showcasing premium fabric quality and expert craftsmanship by KK Curtain Design"
+      tags: ["Beige", "Lace Sheers", "Tiebacks", "Layered"],
+      altText: "Elegant beige curtains with decorative fabric tiebacks paired with delicate white lace sheer panels, showcasing sophisticated layered window treatment with intricate lace patterns and premium fabric quality"
     },
     {
       id: 2,
-      title: "Modern Bedroom Blackout",
-      description: "Blackout curtains in charcoal with thermal lining",
+      title: "Living Room Elegance",
+      description: "Luxurious beige curtains with ornate swag valances and decorative tiebacks",
       image: DinningRoomElegance,
-      tags: ["Bedroom", "Blackout", "Thermal"],
-      altText: "Modern charcoal blackout curtains with thermal lining in contemporary bedroom, providing complete light control and energy efficiency for better sleep"
+      tags: ["Living Room", "Traditional", "Swag Valance", "Decorative"],
+      altText: "Elegant traditional living room featuring luxurious beige curtains with ornate swag valances, decorative tiebacks, and layered sheer panels in a formal interior with polished marble flooring"
     },
     {
       id: 3,
-      title: "Dining Room Elegance",
-      description: "Cream voile curtains with decorative tiebacks",
-      image: RoomElegance,
-      tags: ["Dining Room", "Lace", "Cream"],
-      altText: "Elegant cream voile curtains with decorative tiebacks in formal dining room, creating soft light filtering and sophisticated dining ambiance"
-    },
-    {
-      id: 4,
-      title: "Office Space Vertical Blinds",
-      description: "Vertical blinds in neutral beige tones",
-      image: ElegantLivingRoom,
-      tags: ["Office", "Vertical Blinds", "Beige"],
-      altText: "Professional vertical blinds in neutral beige tones for modern office space, providing privacy and adjustable light control for productive work environment"
-    },
-    {
-      id: 5,
-      title: "Kitchen Window Treatment",
-      description: "Water-resistant curtains with tie-up styling",
-      image: OfficeSpace,
-      tags: ["Kitchen", "Water-resistant", "Tie-up"],
-      altText: "Water-resistant kitchen curtains with tie-up styling, designed for high-humidity environments while maintaining style and functionality"
-    },
-    {
-      id: 6,
       title: "Master Bedroom Luxury",
       description: "Silk curtains with matching valance",
       image: bedroomCurtains,
@@ -64,12 +40,36 @@ const Gallery = () => {
       altText: "Luxurious silk curtains with matching valance in master bedroom, featuring premium materials and elegant design for ultimate comfort and style"
     },
     {
-      id: 7,
+      id: 4,
+      title: "Classic Swag Valance Collection",
+      description: "Traditional beige curtains with elaborate swag valances and decorative tiebacks",
+      image: ElegantLivingRoom,
+      tags: ["Swag Valance", "Traditional", "Beige", "Formal"],
+      altText: "Display of traditional beige curtains featuring elaborate multi-layered swag valances with decorative tiebacks in a curtain showroom, showcasing classic formal window treatment styles with premium fabric construction"
+    },
+    {
+      id: 5,
       title: "Children's Room Fun",
       description: "Colorful themed curtains with blackout lining",
       image: diningCurtains,
       tags: ["Children's Room", "Colorful", "Blackout"],
       altText: "Colorful themed curtains with blackout lining for children's room, combining fun designs with practical light control for better sleep"
+    },
+    {
+      id: 6,
+      title: "Cream Curtains with Circle Pattern Sheers",
+      description: "Cream curtains with tiebacks paired with circle-patterned sheer panels",
+      image: RoomElegance,
+      tags: ["Cream", "Tiebacks", "Patterned Sheers", "Layered"],
+      altText: "Cream-colored curtains with decorative tiebacks paired with white sheer panels featuring circular dot patterns, creating an elegant layered window treatment with soft light filtering"
+    },
+    {
+      id: 7,
+      title: "Living Room Bay Window Curtains",
+      description: "Golden beige curtains with decorative tiebacks spanning bay window",
+      image: OfficeSpace,
+      tags: ["Living Room", "Bay Window", "Golden beige", "Tiebacks"],
+      altText: "Elegant Golden beige curtains with decorative tiebacks installed across a bay window in a living room, paired with patterned sheer panels and complementing brown leather sectional sofa"
     },
     {
       id: 8,
