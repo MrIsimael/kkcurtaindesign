@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import LazyImage from './LazyImage';
-import heroCurtains from '../assets/hero-curtains.jpg';
-import bedroomCurtains from '../assets/bedroom-curtains.jpg';
-import diningCurtains from '../assets/dining-curtains.jpg';
-import officeBlinds from '../assets/office-blinds.jpg';
+import ModernBedroom from '../assets/HomeGallery/ModernBedroom.jpg';
+import DinningRoomElegance from '../assets/HomeGallery/DinningRoomElegance.jpg';
+import ElegantLivingRoom from '../assets/HomeGallery/ElegantLivingRoom.jpg';
+import OfficeSpace from '../assets/HomeGallery/OfficeSpace.jpg';
 
 const GalleryPreview = () => {
   const galleryItems = [
@@ -12,28 +12,28 @@ const GalleryPreview = () => {
       id: 1,
       title: "Elegant Living Room",
       description: "Luxurious sage green curtains with white lace trim",
-      image: heroCurtains,
+      image: ElegantLivingRoom,
       altText: "Elegant sage green custom curtains with white lace trim in a sophisticated living room, featuring premium fabric and expert tailoring by KK Curtain Design"
     },
     {
       id: 2,
       title: "Modern Bedroom",
       description: "Blackout curtains in charcoal with thermal lining",
-      image: bedroomCurtains,
+      image: ModernBedroom,
       altText: "Modern charcoal blackout curtains with thermal lining in a contemporary bedroom, providing complete light control and energy efficiency"
     },
     {
       id: 3,
       title: "Dining Room Elegance",
       description: "Cream voile curtains with decorative tiebacks",
-      image: diningCurtains,
+      image: DinningRoomElegance,
       altText: "Elegant cream voile curtains with decorative tiebacks in a formal dining room, creating soft light filtering and sophisticated ambiance"
     },
     {
       id: 4,
       title: "Office Space",
       description: "Vertical blinds in neutral beige tones",
-      image: officeBlinds,
+      image: OfficeSpace,
       altText: "Professional vertical blinds in neutral beige tones for office space, providing privacy and light control for productive work environment"
     }
   ];

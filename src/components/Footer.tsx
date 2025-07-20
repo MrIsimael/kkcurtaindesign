@@ -79,6 +79,7 @@ const Footer = () => {
               </div>
               <div className="w-full max-w-[220px] aspect-video rounded-lg overflow-hidden border border-border">
                 <iframe
+                  className="border-none"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3579.780057533151!2d28.045174!3d-26.2038321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e950e992bbc1aa5%3A0xa7a8c1d8b4b281f7!2s84%20Helen%20Joseph%20St%2C%20Johannesburg%2C%202000!5e0!3m2!1sen!2sza!4v1752848671046!5m2!1sen!2sza"
                   width="220"
                   height="120"

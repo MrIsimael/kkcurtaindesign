@@ -57,7 +57,7 @@ const BusinessIntro = () => {
             </p>
             <div className="flex justify-center">
               <a
-                href="https://wa.me/27722659132?text=Hi! I'd like to get a quote for custom curtains."
+                href="https://wa.me/27722659132?text=Hi! I'd like to get a quote for curtains."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary"

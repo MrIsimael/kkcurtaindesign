@@ -3,10 +3,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import WhatsAppFloat from '../components/WhatsAppFloat';
 import LazyImage from '../components/LazyImage';
-import heroCurtains from '../assets/hero-curtains.jpg';
 import bedroomCurtains from '../assets/bedroom-curtains.jpg';
 import diningCurtains from '../assets/dining-curtains.jpg';
 import officeBlinds from '../assets/office-blinds.jpg';
+import RoomElegance from '../assets/HomeGallery/RoomElegance.jpg';
+import ModernBedroom from '../assets/HomeGallery/ModernBedroom.jpg';
+import DinningRoomElegance from '../assets/HomeGallery/DinningRoomElegance.jpg';
+import ElegantLivingRoom from '../assets/HomeGallery/ElegantLivingRoom.jpg';
+import OfficeSpace from '../assets/HomeGallery/OfficeSpace.jpg';
 import SEO from '../components/SEO';
 
 const Gallery = () => {
@@ -15,7 +19,7 @@ const Gallery = () => {
       id: 1,
       title: "Elegant Living Room Curtains",
       description: "Luxurious sage green curtains with white lace trim",
-      image: heroCurtains,
+      image: ModernBedroom,
       tags: ["Living Room", "Sage Green", "Lace Trim"],
       altText: "Elegant sage green custom curtains with white lace trim in a sophisticated living room, showcasing premium fabric quality and expert craftsmanship by KK Curtain Design"
     },
@@ -23,7 +27,7 @@ const Gallery = () => {
       id: 2,
       title: "Modern Bedroom Blackout",
       description: "Blackout curtains in charcoal with thermal lining",
-      image: bedroomCurtains,
+      image: DinningRoomElegance,
       tags: ["Bedroom", "Blackout", "Thermal"],
       altText: "Modern charcoal blackout curtains with thermal lining in contemporary bedroom, providing complete light control and energy efficiency for better sleep"
     },
@@ -31,15 +35,15 @@ const Gallery = () => {
       id: 3,
       title: "Dining Room Elegance",
       description: "Cream voile curtains with decorative tiebacks",
-      image: diningCurtains,
-      tags: ["Dining Room", "Voile", "Cream"],
+      image: RoomElegance,
+      tags: ["Dining Room", "Lace", "Cream"],
       altText: "Elegant cream voile curtains with decorative tiebacks in formal dining room, creating soft light filtering and sophisticated dining ambiance"
     },
     {
       id: 4,
       title: "Office Space Vertical Blinds",
       description: "Vertical blinds in neutral beige tones",
-      image: officeBlinds,
+      image: ElegantLivingRoom,
       tags: ["Office", "Vertical Blinds", "Beige"],
       altText: "Professional vertical blinds in neutral beige tones for modern office space, providing privacy and adjustable light control for productive work environment"
     },
@@ -47,7 +51,7 @@ const Gallery = () => {
       id: 5,
       title: "Kitchen Window Treatment",
       description: "Water-resistant curtains with tie-up styling",
-      image: heroCurtains,
+      image: OfficeSpace,
       tags: ["Kitchen", "Water-resistant", "Tie-up"],
       altText: "Water-resistant kitchen curtains with tie-up styling, designed for high-humidity environments while maintaining style and functionality"
     },

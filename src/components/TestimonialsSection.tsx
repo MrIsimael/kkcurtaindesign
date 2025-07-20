@@ -78,6 +78,7 @@ const TestimonialsSection = () => {
           </div>
 
           <button
+            title="Previous testimonial"
             onClick={prevTestimonial}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 bg-white rounded-full p-2 shadow-medium hover:shadow-large transition-all duration-200"
           >
@@ -85,6 +86,7 @@ const TestimonialsSection = () => {
           </button>
 
           <button
+            title="Next testimonial"
             onClick={nextTestimonial}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 bg-white rounded-full p-2 shadow-medium hover:shadow-large transition-all duration-200"
           >
@@ -95,6 +97,7 @@ const TestimonialsSection = () => {
         <div className="flex justify-center mt-6 space-x-2">
           {testimonials.map((_, index) => (
             <button
+              title={`View testimonial ${index + 1}`}
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`w-2 h-2 rounded-full transition-colors duration-200 ${
