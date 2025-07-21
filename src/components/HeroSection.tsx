@@ -28,9 +28,7 @@ const HeroSection = () => {
             <Link
               to="/quote"
               className="btn-primary inline-flex items-center space-x-2"
-            >
-              <span>Get a Quote</span>
-              <ArrowRight className="w-4 h-4" />
+            >Get a Quote<ArrowRight className="w-4 h-4" />
             </Link>
             <Link
               to="/gallery"
