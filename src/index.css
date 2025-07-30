@@ -125,7 +125,7 @@
 @layer components {
   /* Custom button variants */
   .btn-primary {
-    @apply bg-primary hover:bg-primary-hover text-primary-foreground font-medium px-6 py-3 rounded-xl transition-all duration-200 shadow-soft hover:shadow-medium;
+    @apply bg-primary hover:bg-primary-hover text-primary-foreground font-medium px-6 py-3 rounded-xl transition-all duration-200 shadow-soft hover:shadow-medium flex justify-center items-center text-center;
   }
   
   .btn-secondary {
@@ -133,7 +133,7 @@
   }
   
   .btn-outline {
-    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium px-6 py-3 rounded-xl transition-all duration-200;
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground font-medium px-6 py-3 rounded-xl transition-all duration-200 flex justify-center items-center text-center;
   }
   
   /* Card styles */
