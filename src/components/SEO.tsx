@@ -24,9 +24,7 @@ const SEO = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <link rel="canonical" href={canonicalUrl} />
-      <meta property="og:url" content={canonicalUrl} />
-      <meta name="twitter:url" content={canonicalUrl} />
+      <link rel="canonical" href={url} />
       
       {/* Open Graph */}
       <meta property="og:title" content={title} />
