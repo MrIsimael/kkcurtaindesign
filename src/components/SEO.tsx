@@ -24,7 +24,7 @@ const SEO = ({
       <title>{title}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
-      <link rel="canonical" href={url} />
+      <link rel="canonical" href="https://kkcurtaindesign.co.za/" />
       
       {/* Open Graph */}
       <meta property="og:title" content={title} />
